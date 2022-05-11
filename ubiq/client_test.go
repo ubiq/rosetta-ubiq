@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ethereum
+package ubiq
 
 import (
 	"context"
@@ -25,19 +25,19 @@ import (
 	"sort"
 	"testing"
 
-	mocks "github.com/coinbase/rosetta-ethereum/mocks/ethereum"
+	ubiq "github.com/ubiq/go-ubiq/v7"
+	mocks "github.com/ubiq/rosetta-ubiq/mocks/ubiq"
 
 	RosettaTypes "github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth/tracers"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/ubiq/go-ubiq/v7/common"
+	"github.com/ubiq/go-ubiq/v7/common/hexutil"
+	"github.com/ubiq/go-ubiq/v7/core/types"
+	"github.com/ubiq/go-ubiq/v7/eth/tracers"
+	"github.com/ubiq/go-ubiq/v7/p2p"
+	"github.com/ubiq/go-ubiq/v7/params"
+	"github.com/ubiq/go-ubiq/v7/rpc"
 	"golang.org/x/sync/semaphore"
 )
 
@@ -68,7 +68,7 @@ func TestStatus_NotReady(t *testing.T) {
 	assert.Equal(t, int64(-1), timestamp)
 	assert.Nil(t, syncStatus)
 	assert.Nil(t, peers)
-	assert.True(t, errors.Is(err, ethereum.NotFound))
+	assert.True(t, errors.Is(err, ubiq.NotFound))
 
 	mockJSONRPC.AssertExpectations(t)
 	mockGraphQL.AssertExpectations(t)

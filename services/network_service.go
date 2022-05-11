@@ -17,8 +17,8 @@ package services
 import (
 	"context"
 
-	"github.com/coinbase/rosetta-ethereum/configuration"
-	"github.com/coinbase/rosetta-ethereum/ethereum"
+	"github.com/ubiq/rosetta-ubiq/configuration"
+	"github.com/ubiq/rosetta-ubiq/ubiq"
 
 	"github.com/coinbase/rosetta-sdk-go/asserter"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -58,16 +58,16 @@ func (s *NetworkAPIService) NetworkOptions(
 ) (*types.NetworkOptionsResponse, *types.Error) {
 	return &types.NetworkOptionsResponse{
 		Version: &types.Version{
-			NodeVersion:       ethereum.NodeVersion,
+			NodeVersion:       ubiq.NodeVersion,
 			RosettaVersion:    types.RosettaAPIVersion,
 			MiddlewareVersion: types.String(configuration.MiddlewareVersion),
 		},
 		Allow: &types.Allow{
 			Errors:                  Errors,
-			OperationTypes:          ethereum.OperationTypes,
-			OperationStatuses:       ethereum.OperationStatuses,
-			HistoricalBalanceLookup: ethereum.HistoricalBalanceSupported,
-			CallMethods:             ethereum.CallMethods,
+			OperationTypes:          ubiq.OperationTypes,
+			OperationStatuses:       ubiq.OperationStatuses,
+			HistoricalBalanceLookup: ubiq.HistoricalBalanceSupported,
+			CallMethods:             ubiq.CallMethods,
 		},
 	}, nil
 }

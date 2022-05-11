@@ -12,43 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ethereum
+package ubiq
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ubiq/go-ubiq/v7/params"
+	"github.com/ubiq/go-ubiq/v7/rpc"
 )
 
 const (
 	// NodeVersion is the version of geth we are using.
-	NodeVersion = "1.9.24"
+	NodeVersion = "7.0.0"
 
-	// Blockchain is Ethereum.
-	Blockchain string = "Ethereum"
+	// Blockchain is Ubiq.
+	Blockchain string = "Ubiq"
 
 	// MainnetNetwork is the value of the network
 	// in MainnetNetworkIdentifier.
 	MainnetNetwork string = "Mainnet"
 
-	// RopstenNetwork is the value of the network
-	// in RopstenNetworkIdentifier.
-	RopstenNetwork string = "Ropsten"
-
-	// RinkebyNetwork is the value of the network
-	// in RinkebyNetworkNetworkIdentifier.
-	RinkebyNetwork string = "Rinkeby"
-
-	// GoerliNetwork is the value of the network
-	// in GoerliNetworkNetworkIdentifier.
-	GoerliNetwork string = "Goerli"
-
 	// Symbol is the symbol value
 	// used in Currency.
-	Symbol = "ETH"
+	Symbol = "UBQ"
 
 	// Decimals is the decimals value
 	// used in Currency.
@@ -109,7 +97,7 @@ const (
 
 	// MaxUncleDepth is the maximum depth for
 	// an uncle to be rewarded.
-	MaxUncleDepth = 8
+	MaxUncleDepth = 1
 
 	// GenesisBlockIndex is the index of the
 	// genesis block.
@@ -120,9 +108,9 @@ const (
 	TransferGasLimit = int64(21000) //nolint:gomnd
 
 	// MainnetGethArguments are the arguments to start a mainnet geth instance.
-	MainnetGethArguments = `--config=/app/ethereum/geth.toml --gcmode=archive --graphql`
+	MainnetGethArguments = `--config=/app/ubiq/gubiq.toml --gcmode=archive --graphql`
 
-	// IncludeMempoolCoins does not apply to rosetta-ethereum as it is not UTXO-based.
+	// IncludeMempoolCoins does not apply to rosetta-ubiq as it is not UTXO-based.
 	IncludeMempoolCoins = false
 )
 
@@ -143,29 +131,8 @@ var (
 		Index: GenesisBlockIndex,
 	}
 
-	// RopstenGenesisBlockIdentifier is the *types.BlockIdentifier
-	// of the Ropsten genesis block.
-	RopstenGenesisBlockIdentifier = &types.BlockIdentifier{
-		Hash:  params.RopstenGenesisHash.Hex(),
-		Index: GenesisBlockIndex,
-	}
-
-	// RinkebyGenesisBlockIdentifier is the *types.BlockIdentifier
-	// of the Ropsten genesis block.
-	RinkebyGenesisBlockIdentifier = &types.BlockIdentifier{
-		Hash:  params.RinkebyGenesisHash.Hex(),
-		Index: GenesisBlockIndex,
-	}
-
-	// GoerliGenesisBlockIdentifier is the *types.BlockIdentifier
-	// of the Goerli genesis block.
-	GoerliGenesisBlockIdentifier = &types.BlockIdentifier{
-		Hash:  params.GoerliGenesisHash.Hex(),
-		Index: GenesisBlockIndex,
-	}
-
 	// Currency is the *types.Currency for all
-	// Ethereum networks.
+	// Ubiq networks.
 	Currency = &types.Currency{
 		Symbol:   Symbol,
 		Decimals: Decimals,
@@ -207,14 +174,14 @@ var (
 	}
 )
 
-// JSONRPC is the interface for accessing go-ethereum's JSON RPC endpoint.
+// JSONRPC is the interface for accessing go-ubiq's JSON RPC endpoint.
 type JSONRPC interface {
 	CallContext(ctx context.Context, result interface{}, method string, args ...interface{}) error
 	BatchCallContext(ctx context.Context, b []rpc.BatchElem) error
 	Close()
 }
 
-// GraphQL is the interface for accessing go-ethereum's GraphQL endpoint.
+// GraphQL is the interface for accessing go-ubiq's GraphQL endpoint.
 type GraphQL interface {
 	Query(ctx context.Context, input string) (string, error)
 }

@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Compile golang
-FROM ubuntu:20.04 as golang-builder
+FROM --platform=linux/amd64 ubuntu:20.04 as golang-builder
 
 RUN mkdir -p /app \
   && chown -R nobody:nogroup /app
@@ -33,21 +33,21 @@ ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
-# Compile geth
-FROM golang-builder as geth-builder
+# Compile gubiq
+FROM golang-builder as gubiq-builder
 
-# VERSION: go-ethereum v.1.10.16
-RUN git clone https://github.com/ethereum/go-ethereum \
-  && cd go-ethereum \
-  && git checkout 20356e57b119b4e70ce47665a71964434e15200d
+# VERSION: go-ubiq v7.0.0
+RUN git clone https://github.com/ubiq/go-ubiq \
+  && cd go-ubiq \
+  && git checkout c9009e89cb6db5b27375086b7b10fce6f7c1d643
 
-RUN cd go-ethereum \
-  && make geth
+RUN cd go-ubiq \
+  && make gubiq
 
-RUN mv go-ethereum/build/bin/geth /app/geth \
-  && rm -rf go-ethereum
+RUN mv go-ubiq/build/bin/gubiq /app/gubiq \
+  && rm -rf go-ubiq
 
-# Compile rosetta-ethereum
+# Compile rosetta-ubiq
 FROM golang-builder as rosetta-builder
 
 # Use native remote build context to build in any directory
@@ -55,14 +55,14 @@ COPY . src
 RUN cd src \
   && go build
 
-RUN mv src/rosetta-ethereum /app/rosetta-ethereum \
-  && mkdir /app/ethereum \
-  && mv src/ethereum/call_tracer.js /app/ethereum/call_tracer.js \
-  && mv src/ethereum/geth.toml /app/ethereum/geth.toml \
+RUN mv src/rosetta-ubiq /app/rosetta-ubiq \
+  && mkdir /app/ubiq \
+  && mv src/ubiq/call_tracer.js /app/ubiq/call_tracer.js \
+  && mv src/ubiq/gubiq.toml /app/ubiq/gubiq.toml \
   && rm -rf src
 
 ## Build Final Image
-FROM ubuntu:20.04
+FROM --platform=linux/amd64 ubuntu:20.04
 
 RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
 
@@ -73,14 +73,14 @@ RUN mkdir -p /app \
 
 WORKDIR /app
 
-# Copy binary from geth-builder
-COPY --from=geth-builder /app/geth /app/geth
+# Copy binary from gubiq-builder
+COPY --from=gubiq-builder /app/gubiq /app/gubiq
 
 # Copy binary from rosetta-builder
-COPY --from=rosetta-builder /app/ethereum /app/ethereum
-COPY --from=rosetta-builder /app/rosetta-ethereum /app/rosetta-ethereum
+COPY --from=rosetta-builder /app/ubiq /app/ubiq
+COPY --from=rosetta-builder /app/rosetta-ubiq /app/rosetta-ubiq
 
 # Set permissions for everything added to /app
 RUN chmod -R 755 /app/*
 
-CMD ["/app/rosetta-ethereum", "run"]
+CMD ["/app/rosetta-ubiq", "run"]

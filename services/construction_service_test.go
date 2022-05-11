@@ -21,15 +21,15 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/coinbase/rosetta-ethereum/configuration"
-	"github.com/coinbase/rosetta-ethereum/ethereum"
-	mocks "github.com/coinbase/rosetta-ethereum/mocks/services"
+	"github.com/ubiq/rosetta-ubiq/configuration"
+	mocks "github.com/ubiq/rosetta-ubiq/mocks/services"
+	"github.com/ubiq/rosetta-ubiq/ubiq"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/params"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/ubiq/go-ubiq/v7/common"
+	"github.com/ubiq/go-ubiq/v7/params"
 )
 
 func forceHexDecode(t *testing.T, s string) []byte {
@@ -52,8 +52,8 @@ func forceMarshalMap(t *testing.T, i interface{}) map[string]interface{} {
 
 func TestConstructionService(t *testing.T) {
 	networkIdentifier = &types.NetworkIdentifier{
-		Network:    ethereum.RopstenNetwork,
-		Blockchain: ethereum.Blockchain,
+		Network:    ubiq.RopstenNetwork,
+		Blockchain: ubiq.Blockchain,
 	}
 
 	cfg := &configuration.Configuration{
@@ -135,7 +135,7 @@ func TestConstructionService(t *testing.T) {
 		SuggestedFee: []*types.Amount{
 			{
 				Value:    "21000000000000",
-				Currency: ethereum.Currency,
+				Currency: ubiq.Currency,
 			},
 		},
 	}, metadataResponse)

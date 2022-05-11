@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ethereum
+package ubiq
 
 import (
 	"log"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/ubiq/go-ubiq/v7/common"
 )
 
 // ChecksumAddress ensures an Ethereum hex address

@@ -19,11 +19,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/coinbase/rosetta-ethereum/ethereum"
-
 	"github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/ethereum/go-ethereum/params"
 	"github.com/stretchr/testify/assert"
+	"github.com/ubiq/go-ubiq/v7/params"
+	"github.com/ubiq/rosetta-ubiq/ubiq"
 )
 
 func TestLoadConfiguration(t *testing.T) {
@@ -57,14 +56,14 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    ethereum.MainnetNetwork,
-					Blockchain: ethereum.Blockchain,
+					Network:    ubiq.MainnetNetwork,
+					Blockchain: ubiq.Blockchain,
 				},
 				Params:                 params.MainnetChainConfig,
-				GenesisBlockIdentifier: ethereum.MainnetGenesisBlockIdentifier,
+				GenesisBlockIdentifier: ubiq.MainnetGenesisBlockIdentifier,
 				Port:                   1000,
 				GethURL:                DefaultGethURL,
-				GethArguments:          ethereum.MainnetGethArguments,
+				GethArguments:          ubiq.MainnetGethArguments,
 				SkipGethAdmin:          false,
 			},
 		},
@@ -77,67 +76,16 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    ethereum.MainnetNetwork,
-					Blockchain: ethereum.Blockchain,
+					Network:    ubiq.MainnetNetwork,
+					Blockchain: ubiq.Blockchain,
 				},
 				Params:                 params.MainnetChainConfig,
-				GenesisBlockIdentifier: ethereum.MainnetGenesisBlockIdentifier,
+				GenesisBlockIdentifier: ubiq.MainnetGenesisBlockIdentifier,
 				Port:                   1000,
 				GethURL:                "http://blah",
 				RemoteGeth:             true,
-				GethArguments:          ethereum.MainnetGethArguments,
+				GethArguments:          ubiq.MainnetGethArguments,
 				SkipGethAdmin:          true,
-			},
-		},
-		"all set (ropsten)": {
-			Mode:    string(Online),
-			Network: Ropsten,
-			Port:    "1000",
-			cfg: &Configuration{
-				Mode: Online,
-				Network: &types.NetworkIdentifier{
-					Network:    ethereum.RopstenNetwork,
-					Blockchain: ethereum.Blockchain,
-				},
-				Params:                 params.RopstenChainConfig,
-				GenesisBlockIdentifier: ethereum.RopstenGenesisBlockIdentifier,
-				Port:                   1000,
-				GethURL:                DefaultGethURL,
-				GethArguments:          ethereum.RopstenGethArguments,
-			},
-		},
-		"all set (rinkeby)": {
-			Mode:    string(Online),
-			Network: Rinkeby,
-			Port:    "1000",
-			cfg: &Configuration{
-				Mode: Online,
-				Network: &types.NetworkIdentifier{
-					Network:    ethereum.RinkebyNetwork,
-					Blockchain: ethereum.Blockchain,
-				},
-				Params:                 params.RinkebyChainConfig,
-				GenesisBlockIdentifier: ethereum.RinkebyGenesisBlockIdentifier,
-				Port:                   1000,
-				GethURL:                DefaultGethURL,
-				GethArguments:          ethereum.RinkebyGethArguments,
-			},
-		},
-		"all set (goerli)": {
-			Mode:    string(Online),
-			Network: Goerli,
-			Port:    "1000",
-			cfg: &Configuration{
-				Mode: Online,
-				Network: &types.NetworkIdentifier{
-					Network:    ethereum.GoerliNetwork,
-					Blockchain: ethereum.Blockchain,
-				},
-				Params:                 params.GoerliChainConfig,
-				GenesisBlockIdentifier: ethereum.GoerliGenesisBlockIdentifier,
-				Port:                   1000,
-				GethURL:                DefaultGethURL,
-				GethArguments:          ethereum.GoerliGethArguments,
 			},
 		},
 		"all set (testnet)": {
@@ -148,14 +96,14 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    ethereum.RopstenNetwork,
-					Blockchain: ethereum.Blockchain,
+					Network:    ubiq.RopstenNetwork,
+					Blockchain: ubiq.Blockchain,
 				},
 				Params:                 params.RopstenChainConfig,
-				GenesisBlockIdentifier: ethereum.RopstenGenesisBlockIdentifier,
+				GenesisBlockIdentifier: ubiq.RopstenGenesisBlockIdentifier,
 				Port:                   1000,
 				GethURL:                DefaultGethURL,
-				GethArguments:          ethereum.RopstenGethArguments,
+				GethArguments:          ubiq.RopstenGethArguments,
 				SkipGethAdmin:          true,
 			},
 		},

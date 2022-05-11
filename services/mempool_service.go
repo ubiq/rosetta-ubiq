@@ -17,9 +17,9 @@ package services
 import (
 	"context"
 
-	"github.com/coinbase/rosetta-ethereum/configuration"
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
+	"github.com/ubiq/rosetta-ubiq/configuration"
 )
 
 // MempoolAPIService implements the server.MempoolAPIServicer interface.

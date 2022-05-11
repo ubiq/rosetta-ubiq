@@ -17,7 +17,7 @@ package services
 import (
 	"context"
 
-	"github.com/coinbase/rosetta-ethereum/configuration"
+	"github.com/ubiq/rosetta-ubiq/configuration"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 )

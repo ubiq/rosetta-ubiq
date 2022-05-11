@@ -15,9 +15,8 @@
 package cmd
 
 import (
-	"github.com/coinbase/rosetta-ethereum/ethereum"
-
 	"github.com/spf13/cobra"
+	"github.com/ubiq/rosetta-ubiq/ubiq"
 )
 
 var (
@@ -27,7 +26,7 @@ var (
 		Long: `For rosetta-cli testing, it can be useful to generate
 a bootstrap balances file for balances that were created
 at genesis. This command creates such a file given the
-path of an Ethereum genesis file.
+path of an Ubiq genesis file.
 
 When calling this command, you must provide 2 arguments:
 [1] the location of the genesis file
@@ -38,5 +37,5 @@ When calling this command, you must provide 2 arguments:
 )
 
 func runUtilsBootstrapCmd(cmd *cobra.Command, args []string) error {
-	return ethereum.GenerateBootstrapFile(args[0], args[1])
+	return ubiq.GenerateBootstrapFile(args[0], args[1])
 }

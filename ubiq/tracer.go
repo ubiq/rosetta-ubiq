@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ethereum
+package ubiq
 
 import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/ethereum/go-ethereum/eth/tracers"
+	"github.com/ubiq/go-ubiq/v7/eth/tracers"
 )
 
 // convert raw eth data from client to rosetta

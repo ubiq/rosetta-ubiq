@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ethereum
+package ubiq
 
 import (
 	"bufio"
@@ -28,11 +28,11 @@ import (
 )
 
 const (
-	gethLogger       = "geth"
-	gethStdErrLogger = "geth err"
+	gubiqLogger       = "gubiq"
+	gubiqStdErrLogger = "gubiq err"
 )
 
-// logPipe prints out logs from geth. We don't end when context
+// logPipe prints out logs from gubiq. We don't end when context
 // is canceled beacause there are often logs printed after this.
 func logPipe(pipe io.ReadCloser, identifier string) error {
 	reader := bufio.NewReader(pipe)
@@ -48,12 +48,12 @@ func logPipe(pipe io.ReadCloser, identifier string) error {
 	}
 }
 
-// StartGeth starts a geth daemon in another goroutine
+// StartGubiq starts a gubiq daemon in another goroutine
 // and logs the results to the console.
-func StartGeth(ctx context.Context, arguments string, g *errgroup.Group) error {
+func StartGubiq(ctx context.Context, arguments string, g *errgroup.Group) error {
 	parsedArgs := strings.Split(arguments, " ")
 	cmd := exec.Command(
-		"/app/geth",
+		"/app/gubiq",
 		parsedArgs...,
 	) // #nosec G204
 
@@ -68,21 +68,21 @@ func StartGeth(ctx context.Context, arguments string, g *errgroup.Group) error {
 	}
 
 	g.Go(func() error {
-		return logPipe(stdout, gethLogger)
+		return logPipe(stdout, gubiqLogger)
 	})
 
 	g.Go(func() error {
-		return logPipe(stderr, gethStdErrLogger)
+		return logPipe(stderr, gubiqStdErrLogger)
 	})
 
 	if err := cmd.Start(); err != nil {
-		return fmt.Errorf("%w: unable to start geth", err)
+		return fmt.Errorf("%w: unable to start gubiq", err)
 	}
 
 	g.Go(func() error {
 		<-ctx.Done()
 
-		log.Println("sending interrupt to geth")
+		log.Println("sending interrupt to gubiq")
 		return cmd.Process.Signal(os.Interrupt)
 	})
 

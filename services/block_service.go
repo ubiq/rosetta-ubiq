@@ -18,8 +18,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/coinbase/rosetta-ethereum/configuration"
-	"github.com/coinbase/rosetta-ethereum/ethereum"
+	"github.com/ubiq/rosetta-ubiq/configuration"
+	"github.com/ubiq/rosetta-ubiq/ubiq"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
@@ -51,7 +51,7 @@ func (s *BlockAPIService) Block(
 	}
 
 	block, err := s.client.Block(ctx, request.BlockIdentifier)
-	if errors.Is(err, ethereum.ErrBlockOrphaned) {
+	if errors.Is(err, ubiq.ErrBlockOrphaned) {
 		return nil, wrapErr(ErrBlockOrphaned, err)
 	}
 	if err != nil {

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ethereum
+package ubiq
 
 import (
 	"context"
@@ -26,17 +26,17 @@ import (
 	"time"
 
 	RosettaTypes "github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core/types"
-	EthTypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth/tracers"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/rpc"
+	ubiq "github.com/ubiq/go-ubiq/v7"
+	"github.com/ubiq/go-ubiq/v7/common"
+	"github.com/ubiq/go-ubiq/v7/common/hexutil"
+	"github.com/ubiq/go-ubiq/v7/consensus/ubqhash"
+	"github.com/ubiq/go-ubiq/v7/core/types"
+	EthTypes "github.com/ubiq/go-ubiq/v7/core/types"
+	"github.com/ubiq/go-ubiq/v7/eth/tracers"
+	"github.com/ubiq/go-ubiq/v7/p2p"
+	"github.com/ubiq/go-ubiq/v7/params"
+	"github.com/ubiq/go-ubiq/v7/rlp"
+	"github.com/ubiq/go-ubiq/v7/rpc"
 	"golang.org/x/sync/semaphore"
 )
 
@@ -55,7 +55,7 @@ const (
 // idempotent manner. Client relies on the eth_*, debug_*, admin_*, and txpool_*
 // methods and on the graphql endpoint.
 //
-// Client borrows HEAVILY from https://github.com/ethereum/go-ethereum/tree/master/ethclient.
+// Client borrows HEAVILY from https://github.com/ubiq/go-ubiq/tree/master/ethclient.
 type Client struct {
 	p  *params.ChainConfig
 	tc *tracers.TraceConfig
@@ -226,7 +226,7 @@ func (ec *Client) Transaction(
 	if err != nil {
 		return nil, fmt.Errorf("%w: transaction fetch failed", err)
 	} else if len(raw) == 0 {
-		return nil, ethereum.NotFound
+		return nil, ubiq.NotFound
 	}
 
 	// Decode transaction
@@ -325,7 +325,7 @@ func (ec *Client) blockHeaderByNumber(ctx context.Context, number *big.Int) (*ty
 	var head *types.Header
 	err := ec.c.CallContext(ctx, &head, "eth_getBlockByNumber", toBlockNumArg(number), false)
 	if err == nil && head == nil {
-		return nil, ethereum.NotFound
+		return nil, ubiq.NotFound
 	}
 
 	return head, err
@@ -340,7 +340,7 @@ func (ec *Client) blockHeaderByHash(ctx context.Context, hash string) (*types.He
 	}
 	err := ec.c.CallContext(ctx, &head, "eth_getBlockByHash", hash, false)
 	if err == nil && head == nil {
-		return nil, ethereum.NotFound
+		return nil, ubiq.NotFound
 	}
 
 	return head, err
@@ -424,7 +424,7 @@ func (ec *Client) getBlock(
 	if err != nil {
 		return nil, nil, fmt.Errorf("%w: block fetch failed", err)
 	} else if len(raw) == 0 {
-		return nil, nil, ethereum.NotFound
+		return nil, nil, ubiq.NotFound
 	}
 
 	// Decode header and transactions
@@ -1005,7 +1005,7 @@ func (ec *Client) transactionReceipt(
 	err := ec.c.CallContext(ctx, &r, "eth_getTransactionReceipt", txHash)
 	if err == nil {
 		if r == nil {
-			return nil, ethereum.NotFound
+			return nil, ubiq.NotFound
 		}
 	}
 
@@ -1028,7 +1028,7 @@ func (ec *Client) blockByNumber(
 	err := ec.c.CallContext(ctx, &r, "eth_getBlockByNumber", blockIndex, showTxDetails)
 	if err == nil {
 		if r == nil {
-			return nil, ethereum.NotFound
+			return nil, ubiq.NotFound
 		}
 	}
 
@@ -1261,17 +1261,18 @@ func (ec *Client) populateTransaction(
 // for a given block height.
 //
 // Source:
-// https://github.com/ethereum/go-ethereum/blob/master/consensus/ethash/consensus.go#L646-L653
+// https://github.com/ubiq/go-ubiq/blob/master/consensus/ethash/consensus.go#L646-L653
+// TODO(iquidus): update for ubiqs monetary policy
 func (ec *Client) miningReward(
 	currentBlock *big.Int,
 ) int64 {
-	blockReward := ethash.FrontierBlockReward.Int64()
+	blockReward := ubqhash.FrontierBlockReward.Int64()
 	if ec.p.IsByzantium(currentBlock) {
-		blockReward = ethash.ByzantiumBlockReward.Int64()
+		blockReward = ubqhash.ByzantiumBlockReward.Int64()
 	}
 
 	if ec.p.IsConstantinople(currentBlock) {
-		blockReward = ethash.ConstantinopleBlockReward.Int64()
+		blockReward = ubqhash.ConstantinopleBlockReward.Int64()
 	}
 
 	return blockReward
@@ -1358,7 +1359,7 @@ type rpcProgress struct {
 
 // syncProgress retrieves the current progress of the sync algorithm. If there's
 // no sync currently running, it returns nil.
-func (ec *Client) syncProgress(ctx context.Context) (*ethereum.SyncProgress, error) {
+func (ec *Client) syncProgress(ctx context.Context) (*ubiq.SyncProgress, error) {
 	var raw json.RawMessage
 	if err := ec.c.CallContext(ctx, &raw, "eth_syncing"); err != nil {
 		return nil, err
@@ -1374,7 +1375,7 @@ func (ec *Client) syncProgress(ctx context.Context) (*ethereum.SyncProgress, err
 		return nil, err
 	}
 
-	return &ethereum.SyncProgress{
+	return &ubiq.SyncProgress{
 		StartingBlock: uint64(progress.StartingBlock),
 		CurrentBlock:  uint64(progress.CurrentBlock),
 		HighestBlock:  uint64(progress.HighestBlock),

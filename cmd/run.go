@@ -22,9 +22,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/coinbase/rosetta-ethereum/configuration"
-	"github.com/coinbase/rosetta-ethereum/ethereum"
-	"github.com/coinbase/rosetta-ethereum/services"
+	"github.com/ubiq/rosetta-ubiq/configuration"
+	"github.com/ubiq/rosetta-ubiq/services"
+	"github.com/ubiq/rosetta-ubiq/ubiq"
 
 	"github.com/coinbase/rosetta-sdk-go/asserter"
 	"github.com/coinbase/rosetta-sdk-go/server"
@@ -51,7 +51,7 @@ const (
 var (
 	runCmd = &cobra.Command{
 		Use:   "run",
-		Short: "Run rosetta-ethereum",
+		Short: "Run rosetta-ubiq",
 		RunE:  runRunCmd,
 	}
 )
@@ -65,11 +65,11 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 	// The asserter automatically rejects incorrectly formatted
 	// requests.
 	asserter, err := asserter.NewServer(
-		ethereum.OperationTypes,
-		ethereum.HistoricalBalanceSupported,
+		ubiq.OperationTypes,
+		ubiq.HistoricalBalanceSupported,
 		[]*types.NetworkIdentifier{cfg.Network},
-		ethereum.CallMethods,
-		ethereum.IncludeMempoolCoins,
+		ubiq.CallMethods,
+		ubiq.IncludeMempoolCoins,
 		"",
 	)
 	if err != nil {
@@ -83,18 +83,18 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 
 	g, ctx := errgroup.WithContext(ctx)
 
-	var client *ethereum.Client
+	var client *ubiq.Client
 	if cfg.Mode == configuration.Online {
 		if !cfg.RemoteGeth {
 			g.Go(func() error {
-				return ethereum.StartGeth(ctx, cfg.GethArguments, g)
+				return ubiq.StartGubiq(ctx, cfg.GethArguments, g)
 			})
 		}
 
 		var err error
-		client, err = ethereum.NewClient(cfg.GethURL, cfg.Params, cfg.SkipGethAdmin)
+		client, err = ubiq.NewClient(cfg.GethURL, cfg.Params, cfg.SkipGethAdmin)
 		if err != nil {
-			return fmt.Errorf("%w: cannot initialize ethereum client", err)
+			return fmt.Errorf("%w: cannot initialize ubiq client", err)
 		}
 		defer client.Close()
 	}
@@ -127,7 +127,7 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 
 	err = g.Wait()
 	if SignalReceived {
-		return errors.New("rosetta-ethereum halted")
+		return errors.New("rosetta-ubiq halted")
 	}
 
 	return err

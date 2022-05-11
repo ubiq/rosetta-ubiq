@@ -21,12 +21,12 @@ import (
 	"math/big"
 	"strconv"
 
-	"github.com/coinbase/rosetta-ethereum/configuration"
-	"github.com/coinbase/rosetta-ethereum/ethereum"
+	"github.com/ubiq/rosetta-ubiq/configuration"
+	"github.com/ubiq/rosetta-ubiq/ubiq"
 
-	"github.com/ethereum/go-ethereum/common"
-	ethTypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ubiq/go-ubiq/v7/common"
+	ethTypes "github.com/ubiq/go-ubiq/v7/core/types"
+	"github.com/ubiq/go-ubiq/v7/crypto"
 
 	"github.com/coinbase/rosetta-sdk-go/parser"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -76,25 +76,25 @@ func (s *ConstructionAPIService) ConstructionPreprocess(
 	descriptions := &parser.Descriptions{
 		OperationDescriptions: []*parser.OperationDescription{
 			{
-				Type: ethereum.CallOpType,
+				Type: ubiq.CallOpType,
 				Account: &parser.AccountDescription{
 					Exists: true,
 				},
 				Amount: &parser.AmountDescription{
 					Exists:   true,
 					Sign:     parser.NegativeAmountSign,
-					Currency: ethereum.Currency,
+					Currency: ubiq.Currency,
 				},
 			},
 			{
-				Type: ethereum.CallOpType,
+				Type: ubiq.CallOpType,
 				Account: &parser.AccountDescription{
 					Exists: true,
 				},
 				Amount: &parser.AmountDescription{
 					Exists:   true,
 					Sign:     parser.PositiveAmountSign,
-					Currency: ethereum.Currency,
+					Currency: ubiq.Currency,
 				},
 			},
 		},
@@ -112,13 +112,13 @@ func (s *ConstructionAPIService) ConstructionPreprocess(
 	toAdd := toOp.Account.Address
 
 	// Ensure valid from address
-	checkFrom, ok := ethereum.ChecksumAddress(fromAdd)
+	checkFrom, ok := ubiq.ChecksumAddress(fromAdd)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", fromAdd))
 	}
 
 	// Ensure valid to address
-	_, ok = ethereum.ChecksumAddress(toAdd)
+	_, ok = ubiq.ChecksumAddress(toAdd)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", toAdd))
 	}
@@ -171,14 +171,14 @@ func (s *ConstructionAPIService) ConstructionMetadata(
 	}
 
 	// Find suggested gas usage
-	suggestedFee := metadata.GasPrice.Int64() * ethereum.TransferGasLimit
+	suggestedFee := metadata.GasPrice.Int64() * ubiq.TransferGasLimit
 
 	return &types.ConstructionMetadataResponse{
 		Metadata: metadataMap,
 		SuggestedFee: []*types.Amount{
 			{
 				Value:    strconv.FormatInt(suggestedFee, 10),
-				Currency: ethereum.Currency,
+				Currency: ubiq.Currency,
 			},
 		},
 	}, nil
@@ -192,25 +192,25 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 	descriptions := &parser.Descriptions{
 		OperationDescriptions: []*parser.OperationDescription{
 			{
-				Type: ethereum.CallOpType,
+				Type: ubiq.CallOpType,
 				Account: &parser.AccountDescription{
 					Exists: true,
 				},
 				Amount: &parser.AmountDescription{
 					Exists:   true,
 					Sign:     parser.NegativeAmountSign,
-					Currency: ethereum.Currency,
+					Currency: ubiq.Currency,
 				},
 			},
 			{
-				Type: ethereum.CallOpType,
+				Type: ubiq.CallOpType,
 				Account: &parser.AccountDescription{
 					Exists: true,
 				},
 				Amount: &parser.AmountDescription{
 					Exists:   true,
 					Sign:     parser.PositiveAmountSign,
-					Currency: ethereum.Currency,
+					Currency: ubiq.Currency,
 				},
 			},
 		},
@@ -227,27 +227,27 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 		return nil, wrapErr(ErrUnableToParseIntermediateResult, err)
 	}
 
-	// Required Fields for constructing a real Ethereum transaction
+	// Required Fields for constructing a real ubiq transaction
 	toOp, amount := matches[1].First()
 	toAdd := toOp.Account.Address
 	nonce := metadata.Nonce
 	gasPrice := metadata.GasPrice
 	chainID := s.config.Params.ChainID
-	transferGasLimit := uint64(ethereum.TransferGasLimit)
+	transferGasLimit := uint64(ubiq.TransferGasLimit)
 	transferData := []byte{}
 
-	// Additional Fields for constructing custom Ethereum tx struct
+	// Additional Fields for constructing custom ubiq tx struct
 	fromOp, _ := matches[0].First()
 	fromAdd := fromOp.Account.Address
 
 	// Ensure valid from address
-	checkFrom, ok := ethereum.ChecksumAddress(fromAdd)
+	checkFrom, ok := ubiq.ChecksumAddress(fromAdd)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", fromAdd))
 	}
 
 	// Ensure valid to address
-	checkTo, ok := ethereum.ChecksumAddress(toAdd)
+	checkTo, ok := ubiq.ChecksumAddress(toAdd)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", toAdd))
 	}
@@ -381,20 +381,20 @@ func (s *ConstructionAPIService) ConstructionParse(
 	}
 
 	// Ensure valid from address
-	checkFrom, ok := ethereum.ChecksumAddress(tx.From)
+	checkFrom, ok := ubiq.ChecksumAddress(tx.From)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", tx.From))
 	}
 
 	// Ensure valid to address
-	checkTo, ok := ethereum.ChecksumAddress(tx.To)
+	checkTo, ok := ubiq.ChecksumAddress(tx.To)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", tx.To))
 	}
 
 	ops := []*types.Operation{
 		{
-			Type: ethereum.CallOpType,
+			Type: ubiq.CallOpType,
 			OperationIdentifier: &types.OperationIdentifier{
 				Index: 0,
 			},
@@ -403,11 +403,11 @@ func (s *ConstructionAPIService) ConstructionParse(
 			},
 			Amount: &types.Amount{
 				Value:    new(big.Int).Neg(tx.Value).String(),
-				Currency: ethereum.Currency,
+				Currency: ubiq.Currency,
 			},
 		},
 		{
-			Type: ethereum.CallOpType,
+			Type: ubiq.CallOpType,
 			OperationIdentifier: &types.OperationIdentifier{
 				Index: 1,
 			},
@@ -421,7 +421,7 @@ func (s *ConstructionAPIService) ConstructionParse(
 			},
 			Amount: &types.Amount{
 				Value:    tx.Value.String(),
-				Currency: ethereum.Currency,
+				Currency: ubiq.Currency,
 			},
 		},
 	}

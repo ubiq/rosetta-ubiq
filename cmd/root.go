@@ -26,8 +26,8 @@ import (
 
 var (
 	rootCmd = &cobra.Command{
-		Use:   "rosetta-ethereum",
-		Short: "Ethereum implementation of the Rosetta API",
+		Use:   "rosetta-ubiq",
+		Short: "Ubiq implementation of the Rosetta API",
 	}
 
 	// SignalReceived is set to true when a signal causes us to exit. This makes

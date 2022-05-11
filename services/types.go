@@ -20,9 +20,9 @@ import (
 	"math/big"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	ethTypes "github.com/ethereum/go-ethereum/core/types"
+	"github.com/ubiq/go-ubiq/v7/common"
+	"github.com/ubiq/go-ubiq/v7/common/hexutil"
+	ethTypes "github.com/ubiq/go-ubiq/v7/core/types"
 )
 
 // Client is used by the services to get block

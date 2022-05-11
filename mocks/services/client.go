@@ -6,9 +6,9 @@ import (
 	context "context"
 	big "math/big"
 
-	common "github.com/ethereum/go-ethereum/common"
+	common "github.com/ubiq/go-ubiq/v7/common"
 
-	coretypes "github.com/ethereum/go-ethereum/core/types"
+	coretypes "github.com/ubiq/go-ubiq/v7/core/types"
 
 	mock "github.com/stretchr/testify/mock"
 

@@ -20,10 +20,9 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/coinbase/rosetta-ethereum/ethereum"
-
 	"github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/ubiq/go-ubiq/v7/params"
+	"github.com/ubiq/rosetta-ubiq/ubiq"
 )
 
 // Mode is the setting that determines if
@@ -72,9 +71,9 @@ const (
 	PortEnv = "PORT"
 
 	// GethEnv is an optional environment variable
-	// used to connect rosetta-ethereum to an already
+	// used to connect rosetta-ubiq to an already
 	// running geth node.
-	GethEnv = "GETH"
+	GethEnv = "GUBIQ"
 
 	// DefaultGethURL is the default URL for
 	// a running geth node. This is used
@@ -84,9 +83,9 @@ const (
 	// SkipGethAdminEnv is an optional environment variable
 	// to skip geth `admin` calls which are typically not supported
 	// by hosted node services. When not set, defaults to false.
-	SkipGethAdminEnv = "SKIP_GETH_ADMIN"
+	SkipGethAdminEnv = "SKIP_GUBIQ_ADMIN"
 
-	// MiddlewareVersion is the version of rosetta-ethereum.
+	// MiddlewareVersion is the version of rosetta-ubiq.
 	MiddlewareVersion = "0.0.4"
 )
 
@@ -126,36 +125,12 @@ func LoadConfiguration() (*Configuration, error) {
 	switch networkValue {
 	case Mainnet:
 		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.MainnetNetwork,
+			Blockchain: ubiq.Blockchain,
+			Network:    ubiq.MainnetNetwork,
 		}
-		config.GenesisBlockIdentifier = ethereum.MainnetGenesisBlockIdentifier
+		config.GenesisBlockIdentifier = ubiq.MainnetGenesisBlockIdentifier
 		config.Params = params.MainnetChainConfig
-		config.GethArguments = ethereum.MainnetGethArguments
-	case Testnet, Ropsten:
-		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.RopstenNetwork,
-		}
-		config.GenesisBlockIdentifier = ethereum.RopstenGenesisBlockIdentifier
-		config.Params = params.RopstenChainConfig
-		config.GethArguments = ethereum.RopstenGethArguments
-	case Rinkeby:
-		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.RinkebyNetwork,
-		}
-		config.GenesisBlockIdentifier = ethereum.RinkebyGenesisBlockIdentifier
-		config.Params = params.RinkebyChainConfig
-		config.GethArguments = ethereum.RinkebyGethArguments
-	case Goerli:
-		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.GoerliNetwork,
-		}
-		config.GenesisBlockIdentifier = ethereum.GoerliGenesisBlockIdentifier
-		config.Params = params.GoerliChainConfig
-		config.GethArguments = ethereum.GoerliGethArguments
+		config.GethArguments = ubiq.MainnetGethArguments
 	case "":
 		return nil, errors.New("NETWORK must be populated")
 	default:
@@ -174,7 +149,7 @@ func LoadConfiguration() (*Configuration, error) {
 	if len(envSkipGethAdmin) > 0 {
 		val, err := strconv.ParseBool(envSkipGethAdmin)
 		if err != nil {
-			return nil, fmt.Errorf("%w: unable to parse SKIP_GETH_ADMIN %s", err, envSkipGethAdmin)
+			return nil, fmt.Errorf("%w: unable to parse SKIP_GUBIQ_ADMIN %s", err, envSkipGethAdmin)
 		}
 		config.SkipGethAdmin = val
 	}

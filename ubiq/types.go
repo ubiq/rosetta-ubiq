@@ -18,9 +18,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/ubiq/go-ubiq/v7/params"
 	"github.com/ubiq/go-ubiq/v7/rpc"
+	"github.com/ubiq/rosetta-sdk-go/types"
 )
 
 const (

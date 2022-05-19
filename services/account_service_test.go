@@ -22,8 +22,8 @@ import (
 	mocks "github.com/ubiq/rosetta-ubiq/mocks/services"
 	"github.com/ubiq/rosetta-ubiq/ubiq"
 
-	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/stretchr/testify/assert"
+	"github.com/ubiq/rosetta-sdk-go/types"
 )
 
 func TestAccountBalance_Offline(t *testing.T) {

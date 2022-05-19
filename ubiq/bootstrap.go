@@ -19,9 +19,9 @@ import (
 	"math/big"
 	"sort"
 
-	"github.com/coinbase/rosetta-sdk-go/storage/modules"
-	"github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/coinbase/rosetta-sdk-go/utils"
+	"github.com/ubiq/rosetta-sdk-go/storage/modules"
+	"github.com/ubiq/rosetta-sdk-go/types"
+	"github.com/ubiq/rosetta-sdk-go/utils"
 )
 
 type genesis struct {

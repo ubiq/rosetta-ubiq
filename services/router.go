@@ -19,8 +19,8 @@ import (
 
 	"github.com/ubiq/rosetta-ubiq/configuration"
 
-	"github.com/coinbase/rosetta-sdk-go/asserter"
-	"github.com/coinbase/rosetta-sdk-go/server"
+	"github.com/ubiq/rosetta-sdk-go/asserter"
+	"github.com/ubiq/rosetta-sdk-go/server"
 )
 
 // NewBlockchainRouter creates a Mux http.Handler from a collection

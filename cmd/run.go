@@ -26,10 +26,10 @@ import (
 	"github.com/ubiq/rosetta-ubiq/services"
 	"github.com/ubiq/rosetta-ubiq/ubiq"
 
-	"github.com/coinbase/rosetta-sdk-go/asserter"
-	"github.com/coinbase/rosetta-sdk-go/server"
-	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/spf13/cobra"
+	"github.com/ubiq/rosetta-sdk-go/asserter"
+	"github.com/ubiq/rosetta-sdk-go/server"
+	"github.com/ubiq/rosetta-sdk-go/types"
 	"golang.org/x/sync/errgroup"
 )
 

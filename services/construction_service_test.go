@@ -25,11 +25,11 @@ import (
 	mocks "github.com/ubiq/rosetta-ubiq/mocks/services"
 	"github.com/ubiq/rosetta-ubiq/ubiq"
 
-	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/ubiq/go-ubiq/v7/common"
 	"github.com/ubiq/go-ubiq/v7/params"
+	"github.com/ubiq/rosetta-sdk-go/types"
 )
 
 func forceHexDecode(t *testing.T, s string) []byte {

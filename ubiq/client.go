@@ -25,7 +25,6 @@ import (
 	"strconv"
 	"time"
 
-	RosettaTypes "github.com/coinbase/rosetta-sdk-go/types"
 	ubiq "github.com/ubiq/go-ubiq/v7"
 	"github.com/ubiq/go-ubiq/v7/common"
 	"github.com/ubiq/go-ubiq/v7/common/hexutil"
@@ -37,6 +36,7 @@ import (
 	"github.com/ubiq/go-ubiq/v7/params"
 	"github.com/ubiq/go-ubiq/v7/rlp"
 	"github.com/ubiq/go-ubiq/v7/rpc"
+	RosettaTypes "github.com/ubiq/rosetta-sdk-go/types"
 	"golang.org/x/sync/semaphore"
 )
 

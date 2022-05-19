@@ -20,8 +20,8 @@ import (
 	"github.com/ubiq/rosetta-ubiq/configuration"
 	"github.com/ubiq/rosetta-ubiq/ubiq"
 
-	"github.com/coinbase/rosetta-sdk-go/asserter"
-	"github.com/coinbase/rosetta-sdk-go/types"
+	"github.com/ubiq/rosetta-sdk-go/asserter"
+	"github.com/ubiq/rosetta-sdk-go/types"
 )
 
 // NetworkAPIService implements the server.NetworkAPIServicer interface.

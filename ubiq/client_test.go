@@ -28,7 +28,6 @@ import (
 	ubiq "github.com/ubiq/go-ubiq/v7"
 	mocks "github.com/ubiq/rosetta-ubiq/mocks/ubiq"
 
-	RosettaTypes "github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/ubiq/go-ubiq/v7/common"
@@ -38,6 +37,7 @@ import (
 	"github.com/ubiq/go-ubiq/v7/p2p"
 	"github.com/ubiq/go-ubiq/v7/params"
 	"github.com/ubiq/go-ubiq/v7/rpc"
+	RosettaTypes "github.com/ubiq/rosetta-sdk-go/types"
 	"golang.org/x/sync/semaphore"
 )
 

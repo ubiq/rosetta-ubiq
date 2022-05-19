@@ -18,7 +18,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/coinbase/rosetta-sdk-go/types"
+	"github.com/ubiq/rosetta-sdk-go/types"
 	"github.com/ubiq/rosetta-ubiq/configuration"
 	mocks "github.com/ubiq/rosetta-ubiq/mocks/services"
 

@@ -28,8 +28,8 @@ import (
 	ethTypes "github.com/ubiq/go-ubiq/v7/core/types"
 	"github.com/ubiq/go-ubiq/v7/crypto"
 
-	"github.com/coinbase/rosetta-sdk-go/parser"
-	"github.com/coinbase/rosetta-sdk-go/types"
+	"github.com/ubiq/rosetta-sdk-go/parser"
+	"github.com/ubiq/rosetta-sdk-go/types"
 )
 
 // ConstructionAPIService implements the server.ConstructionAPIServicer interface.

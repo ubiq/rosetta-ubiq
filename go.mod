@@ -3,7 +3,7 @@ module github.com/ubiq/rosetta-ubiq
 require (
 	github.com/OneOfOne/xxhash v1.2.5 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/coinbase/rosetta-sdk-go v0.7.2
+	github.com/ubiq/rosetta-sdk-go v0.7.10
 	github.com/fatih/color v1.13.0
 	github.com/go-kit/kit v0.9.0 // indirect
 	github.com/go-logfmt/logfmt v0.5.0 // indirect
@@ -20,5 +20,3 @@ require (
 )
 
 go 1.16
-
-replace github.com/ubiq/rosetta-ubiq => /User/iquidus/go/src/github.com/ubiq/rosetta-ubiq

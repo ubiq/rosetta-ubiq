@@ -21,7 +21,7 @@ import (
 	"github.com/ubiq/rosetta-ubiq/configuration"
 	"github.com/ubiq/rosetta-ubiq/ubiq"
 
-	"github.com/coinbase/rosetta-sdk-go/types"
+	"github.com/ubiq/rosetta-sdk-go/types"
 )
 
 // BlockAPIService implements the server.BlockAPIServicer interface.

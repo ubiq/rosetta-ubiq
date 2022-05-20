@@ -1,6 +1,6 @@
 {
   "network": {
-    "blockchain": "Ethereum",
+    "blockchain": "Ubiq",
     "network": "Mainnet"
   },
   "data_directory": "cli-data",

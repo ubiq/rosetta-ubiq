@@ -78,7 +78,7 @@ const (
 	// DefaultGethURL is the default URL for
 	// a running geth node. This is used
 	// when GethEnv is not populated.
-	DefaultGethURL = "http://localhost:8545"
+	DefaultGethURL = "http://localhost:8588"
 
 	// SkipGethAdminEnv is an optional environment variable
 	// to skip geth `admin` calls which are typically not supported

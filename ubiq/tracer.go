@@ -24,7 +24,7 @@ import (
 // convert raw eth data from client to rosetta
 
 const (
-	tracerPath = "ethereum/call_tracer.js"
+	tracerPath = "ubiq/call_tracer.js"
 )
 
 var (

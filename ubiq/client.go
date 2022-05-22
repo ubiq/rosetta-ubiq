@@ -1261,21 +1261,13 @@ func (ec *Client) populateTransaction(
 // for a given block height.
 //
 // Source:
-// https://github.com/ubiq/go-ubiq/blob/master/consensus/ethash/consensus.go#L646-L653
-// TODO(iquidus): update for ubiqs monetary policy
+// https://github.com/ubiq/go-ubiq/blob/master/consensus/ubqhash/consensus.go#L663-L698
 func (ec *Client) miningReward(
 	currentBlock *big.Int,
 ) int64 {
-	blockReward := ubqhash.FrontierBlockReward.Int64()
-	if ec.p.IsByzantium(currentBlock) {
-		blockReward = ubqhash.ByzantiumBlockReward.Int64()
-	}
+	_, blockReward := ubqhash.CalcBaseBlockReward(ec.p.Ubqhash, currentBlock, ec.p.IsLondon(currentBlock))
 
-	if ec.p.IsConstantinople(currentBlock) {
-		blockReward = ubqhash.ConstantinopleBlockReward.Int64()
-	}
-
-	return blockReward
+	return blockReward.Int64()
 }
 
 func (ec *Client) blockRewardTransaction(
@@ -1316,13 +1308,8 @@ func (ec *Client) blockRewardTransaction(
 	// Calculate uncle rewards
 	for _, b := range uncles {
 		uncleMiner := b.Coinbase.String()
-		uncleBlock := b.Number.Int64()
-		uncleRewardBlock := new(
-			big.Int,
-		).Mul(
-			big.NewInt(uncleBlock+MaxUncleDepth-blockIdentifier.Index),
-			big.NewInt(miningReward/MaxUncleDepth),
-		)
+		uncleBlock := b.Number
+		uncleRewardBlock := ubqhash.CalcUncleBlockReward(ec.p, big.NewInt(blockIdentifier.Index), uncleBlock, big.NewInt(miningReward))
 
 		uncleRewardOp := &RosettaTypes.Operation{
 			OperationIdentifier: &RosettaTypes.OperationIdentifier{

@@ -1265,7 +1265,10 @@ func (ec *Client) populateTransaction(
 func (ec *Client) miningReward(
 	currentBlock *big.Int,
 ) int64 {
-	_, blockReward := ubqhash.CalcBaseBlockReward(ec.p.Ubqhash, currentBlock, ec.p.IsLondon(currentBlock))
+	blockReward := big.NewInt(0)
+	if currentBlock.Int64() > 0 {
+		_, blockReward = ubqhash.CalcBaseBlockReward(ec.p.Ubqhash, currentBlock, ec.p.IsLondon(currentBlock))
+	}
 
 	return blockReward.Int64()
 }
